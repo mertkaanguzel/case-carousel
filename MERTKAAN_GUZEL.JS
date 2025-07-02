@@ -32,11 +32,11 @@
                             </h2>
                         </div>
                         <div class="nav nav-left">
-                            <div class="carousel-arrow-icon-left"></div>
+                            <div class="carousel-arrow-icon-left">&lt;</div>
                         </div>
                         <div class="carousel-content"></div>
                         <div class="nav nav-right">
-                            <div class="carousel-arrow-icon-right"></div>
+                            <div class="carousel-arrow-icon-right">&gt;</div>
                         </div>
                     </div>
                 `;
@@ -53,7 +53,15 @@
         products.forEach(element => {
             const card = document.createElement('div');
             card.classList.add('card');
-            card.innerHTML = element.name;
+            card.innerHTML = `
+                <a href=${element.url}><img src="${element.img}" alt="${element.name}"></a>
+                <h3>${element.name} - ${element.name}</h3>
+                <h4>${element.price < element.original_price ?  
+                        ('%'+ parseInt(element.original_price -element.price) / element.original_price * 100) + ' indirimli'
+                        : ''} ${element.price} TL
+                </h4>
+
+            `;
             carouselContent.appendChild(card);
         });
     };
@@ -63,7 +71,7 @@
             .carousel {
                 position: relative;
                 width: 50%;
-                height: 50px; 
+                height: 500px; 
                 margin: 0 auto;
                 }
 
@@ -77,7 +85,7 @@
 
             .card {
                 height: 100%;
-                background-color: yellow;
+                width: 260px;
                 position: absolute;
                 z-index: 1;
                 transition: left .4s cubic-bezier(.47,.13,.15,.89);
