@@ -1,11 +1,31 @@
 (() => {
     const init = () => {
-        buildHTML();
-        buildCSS();
-        setEvents();
+        if (window.location.href !== 'https://www.e-bebek.com/') {
+            console.log('wrong page');
+            return;
+        }
+
+        if (localStorage.getItem("products") === null) {
+            fetch('https://gist.githubusercontent.com/sevindi/8bcbde9f02c1d4abe112809c974e1f49/raw/9bf93b58df623a9b16f1db721cd0a7a539296cf0/products.json')
+                .then(response => response.json())
+                .then(data => {
+                    localStorage.setItem("products", JSON.stringify(data));
+                    buildHTML();
+                    buildCSS();
+                    setEvents();
+                });
+        } else {
+            buildHTML();
+            buildCSS();
+            setEvents();
+        }
+
+        
     };
 
     const buildHTML = () => {
+        const products = JSON.parse(localStorage.getItem("products"));
+        console.log(products);
         const html = `
             <h1>Merhaba Dünya</h1>
             <p>Bu bir örnek uygulamadır.</p>
